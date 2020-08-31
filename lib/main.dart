@@ -14,6 +14,8 @@ class _MyAppState extends State<MyApp> {
   int _cameraOcr = FlutterMobileVision.CAMERA_BACK;
   String _textValue = "sample";
   String _translation = "uzorak";
+  String _language = "english";
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,7 @@ class _MyAppState extends State<MyApp> {
               height: 100.0,
               child: RaisedButton(
                 onPressed: _read,
-                child: new Text('Translate'),
+                child: new Text('Translate from: ' + _language),
               ),
             ),
           ],
@@ -76,6 +78,7 @@ class _MyAppState extends State<MyApp> {
       );
 
       setState(() {
+        _language = texts[0].language;
         _textValue = texts[0].value;
       });
     } on Exception {
