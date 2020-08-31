@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_vision/flutter_mobile_vision.dart';
+import 'package:translator/translator.dart';
+
 
 void main() => runApp(new MyApp());
 
@@ -36,7 +38,7 @@ class _MyAppState extends State<MyApp> {
                 style: new TextStyle(
                 fontSize: 30.0,
                 color: Colors.black,
-                  height: 3.0,
+                  height: 1.5,
               ),
             ),
             ButtonTheme(
@@ -52,14 +54,14 @@ class _MyAppState extends State<MyApp> {
               style: new TextStyle(
                 fontSize: 30.0,
                 color: Colors.black,
-                height: 3.0,
+                height: 1.5,
               ),
             ),
             ButtonTheme(
               minWidth: 200.0,
               height: 100.0,
               child: RaisedButton(
-                onPressed: _read,
+                onPressed: _translate,
                 child: new Text('Translate from: ' + _language),
               ),
             ),
@@ -67,6 +69,7 @@ class _MyAppState extends State<MyApp> {
         )),
       ),
     );
+
   }
 
   Future<Null> _read() async {
@@ -87,5 +90,14 @@ class _MyAppState extends State<MyApp> {
     } on Exception {
       texts.add(new OcrText('Failed to recognize text.'));
     }
+  }
+
+  void _translate() async{
+    final translator = GoogleTranslator();
+    var translation = await translator
+        .translate(_textValue, to: 'eng');
+    setState(() {
+      _translation = translation.toString();
+    });
   }
 }
