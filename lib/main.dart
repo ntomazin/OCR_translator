@@ -12,8 +12,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int _cameraOcr = FlutterMobileVision.CAMERA_BACK;
-  String _textValue = "sample";
-  String _translation = "uzorak";
+  String _textValue = "uzorak";
+  String _translation = "sample";
   String _language = "english";
 
 
@@ -71,15 +71,18 @@ class _MyAppState extends State<MyApp> {
 
   Future<Null> _read() async {
     List<OcrText> texts = [];
+    String words = "";
     try {
       texts = await FlutterMobileVision.read(
         camera: _cameraOcr,
         waitTap: true,
       );
-
+      for (var i=0; i<texts.length; i++) {
+        words += texts[i].value + " ";
+      }
       setState(() {
         _language = texts[0].language;
-        _textValue = texts[0].value;
+        _textValue = words;
       });
     } on Exception {
       texts.add(new OcrText('Failed to recognize text.'));
